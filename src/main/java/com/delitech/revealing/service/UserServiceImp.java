@@ -81,21 +81,13 @@ public class UserServiceImp implements UserService {
     public UserDto getById(UUID id, Locale locale) {
         UserEntity user = repository.findById(id).orElseThrow(() ->
                 new ModelNotFoundException(messageSource.getMessage(EXCEPTION_MODEL_USER_INVALID, null, locale)));
-        UserDto userDto = userToDto.apply(user);
 
-        if(UserTypeEnum.ADMIN.toString().equals(user.getType()))
-            userDto.setTypeUser(adminRepository.findById(user.getId()).orElse(null));
-        else if(UserTypeEnum.CLIENT.toString().equals(user.getType()))
-            userDto.setTypeUser(clientRepository.findById(user.getId()).orElse(null));
-        else if(UserTypeEnum.RESTAURANT.toString().equals(user.getType()))
-            userDto.setTypeUser(restaurantRepository.findById(user.getId()).orElse(null));
-
-        return userDto;
+        return userToDto.apply(user);
     }
 
     @Override
     public Page<UserDto> getAll(Pageable pageable, Locale locale) {
-        return null;
+        return repository.findAll(pageable).map(this::convert);
     }
 
     @Override
@@ -106,6 +98,11 @@ public class UserServiceImp implements UserService {
 
         repository.deleteById(user.getId());
     }
+
+    private UserDto convert(UserEntity entity) {
+        return userToDto.apply(entity);
+    }
+
 
     /**
      * Funcion para validar correo
