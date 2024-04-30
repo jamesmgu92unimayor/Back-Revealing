@@ -17,11 +17,8 @@ import java.util.UUID;
 @Builder
 public class RestaurantEntity implements Serializable {
     @Id
+    @Column(name = "id_usuario", nullable = false)
     private UUID userId;
-
-    @OneToOne
-    @JoinColumn(name = "id_usuario")
-    private UserEntity user;
     @Column(name = "id_categoria_restaurante")
     private UUID categoryRestaurantId;
     @ManyToOne

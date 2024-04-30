@@ -10,26 +10,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-
-/**
- * Controlador inicio de sesion
- */
 @RestController
-@RequestMapping("/auth/login")
+@RequestMapping("auth")
 @RequiredArgsConstructor
 public class AuthController {
 
     private final AuthService authService;
 
-    /**
-     * Servicio que retorna token inicio de sesion
-     *
-     * @param request {@link LoginRequest}
-     * @return {@link AuthResponse}
-     */
     @PostMapping
-    public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
+    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
         return ResponseEntity.ok(authService.login(request));
     }
 
