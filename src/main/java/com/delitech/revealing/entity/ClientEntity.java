@@ -22,4 +22,10 @@ public class ClientEntity implements Serializable {
     @Id
     @Column(name = "id_usuario", nullable = false)
     private UUID userId;
+    @Column(name = "nombre")
+    private String name;
+    @Column(name = "apellido")
+    private String lastname;
+    @Column(name = "celular")
+    private String cellular;
 }

@@ -6,13 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class ClientDto implements Serializable {
-    private UUID userId;
+    private String name;
+    private String lastname;
+    private String cellular;
     private UserDto user;
 }

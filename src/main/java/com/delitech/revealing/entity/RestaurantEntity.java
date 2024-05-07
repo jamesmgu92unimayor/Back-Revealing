@@ -21,6 +21,10 @@ public class RestaurantEntity implements Serializable {
     private UUID userId;
     @Column(name = "id_categoria_restaurante")
     private UUID categoryRestaurantId;
+    @Column(name = "direccion")
+    private String address;
+    @Column(name = "celular")
+    private String cellular;
     @ManyToOne
     @JoinColumn(name = "id_categoria_restaurante", insertable = false, updatable = false)
     private CategoryRestaurantEntity categoryRestaurant;

@@ -15,6 +15,8 @@ import java.util.UUID;
 public class RestaurantDto implements Serializable {
     private UUID userId;
     private UUID categoryRestaurantId;
+    private String address;
+    private String cellular;
     private UserDto user;
     private CategoryRestaurantDto categoryRestaurant;
 }
