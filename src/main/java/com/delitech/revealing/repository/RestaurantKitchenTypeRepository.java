@@ -1,5 +1,6 @@
 package com.delitech.revealing.repository;
 
+import com.delitech.revealing.entity.KitchenTypeEntity;
 import com.delitech.revealing.entity.RestaurantEntity;
 import com.delitech.revealing.entity.RestaurantKitchenTypeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +14,5 @@ import java.util.UUID;
 public interface RestaurantKitchenTypeRepository extends JpaRepository<RestaurantKitchenTypeEntity, UUID>, JpaSpecificationExecutor<RestaurantKitchenTypeEntity> {
 
     List<RestaurantKitchenTypeEntity> getByRestaurant(RestaurantEntity restaurant);
+    List<RestaurantKitchenTypeEntity> getByKitchenType(KitchenTypeEntity kitchenType);
 }
