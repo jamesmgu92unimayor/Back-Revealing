@@ -1,8 +1,8 @@
 package com.delitech.revealing.controller;
 
 import com.delitech.revealing.commons.GeneralBodyResponse;
-import com.delitech.revealing.dto.ClientDto;
-import com.delitech.revealing.service.ClientService;
+import com.delitech.revealing.dto.RestaurantDto;
+import com.delitech.revealing.service.RestaurantService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -19,15 +19,15 @@ import java.util.UUID;
 import static com.delitech.revealing.commons.Constants.*;
 
 @RestController
-@RequestMapping("client")
+@RequestMapping("restaurant")
 @RequiredArgsConstructor
-public class ClientController {
+public class RestaurantController {
 
     private final MessageSource messageSource;
-    private final ClientService service;
+    private final RestaurantService service;
 
     @PostMapping
-    public ResponseEntity<GeneralBodyResponse<ClientDto>> save(@Valid @RequestBody ClientDto dto, Locale locale) {
+    public ResponseEntity<GeneralBodyResponse<RestaurantDto>> save(@Valid @RequestBody RestaurantDto dto, Locale locale) {
         var client = service.save(dto, locale);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -35,15 +35,15 @@ public class ClientController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<GeneralBodyResponse<ClientDto>> update(@Valid @RequestBody ClientDto dto, @PathVariable("id") UUID id, Locale locale) {
+    public ResponseEntity<GeneralBodyResponse<RestaurantDto>> update(@Valid @RequestBody RestaurantDto dto, @PathVariable("id") UUID id, Locale locale) {
         var client = service.update(dto, id, locale);
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(new GeneralBodyResponse<>(messageSource.getMessage(GENERAL_UPDATE_SUCCESS, null, locale), client));
+                .status(HttpStatus.CREATED)
+                .body(new GeneralBodyResponse<>(messageSource.getMessage(GENERAL_CREATE_SUCCESS, null, locale), client));
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<GeneralBodyResponse<ClientDto>> getById(@PathVariable("id") UUID id, Locale locale) {
+    public ResponseEntity<GeneralBodyResponse<RestaurantDto>> getById(@PathVariable("id") UUID id, Locale locale) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new GeneralBodyResponse<>(messageSource.getMessage(GENERAL_SUCCESS, null, locale),
@@ -51,7 +51,7 @@ public class ClientController {
     }
 
     @GetMapping("page")
-    public ResponseEntity<GeneralBodyResponse<Page<ClientDto>>> getPage(Pageable pageable, Locale locale) {
+    public ResponseEntity<GeneralBodyResponse<Page<RestaurantDto>>> getPage(Pageable pageable, Locale locale) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new GeneralBodyResponse<>(messageSource.getMessage(GENERAL_LIST_SUCCESS, null, locale),
@@ -59,7 +59,7 @@ public class ClientController {
     }
 
     @GetMapping("all")
-    public ResponseEntity<GeneralBodyResponse<List<ClientDto>>> getAll(Locale locale) {
+    public ResponseEntity<GeneralBodyResponse<List<RestaurantDto>>> getAll(Locale locale) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new GeneralBodyResponse<>(messageSource.getMessage(GENERAL_LIST_SUCCESS, null, locale),
@@ -74,5 +74,4 @@ public class ClientController {
                 .status(HttpStatus.OK)
                 .body(new GeneralBodyResponse<>(messageSource.getMessage(GENERAL_DELETE_SUCCESS, null, locale), null));
     }
-
 }

@@ -1,9 +1,10 @@
-package com.delitech.revealing.service;
+package com.delitech.revealing.service.imp;
 
 import com.delitech.revealing.dto.DietaryRestrictionDto;
 import com.delitech.revealing.entity.DietaryRestrictionEntity;
 import com.delitech.revealing.exception.ModelNotFoundException;
 import com.delitech.revealing.repository.DietaryRestrictionRepository;
+import com.delitech.revealing.service.DietaryRestrictionService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;

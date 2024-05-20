@@ -1,4 +1,4 @@
-package com.delitech.revealing.service;
+package com.delitech.revealing.service.imp;
 
 import com.delitech.revealing.commons.UserTypeEnum;
 import com.delitech.revealing.dto.UserDto;
@@ -12,6 +12,7 @@ import com.delitech.revealing.repository.AdminRepository;
 import com.delitech.revealing.repository.ClientRepository;
 import com.delitech.revealing.repository.RestaurantRepository;
 import com.delitech.revealing.repository.UserRepository;
+import com.delitech.revealing.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;

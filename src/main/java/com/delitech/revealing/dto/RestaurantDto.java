@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -13,10 +15,11 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class RestaurantDto implements Serializable {
-    private UUID userId;
     private UUID categoryRestaurantId;
     private String address;
     private String cellular;
     private UserDto user;
     private CategoryRestaurantDto categoryRestaurant;
+
+    private List<RestaurantKitchenTypeDto> kitchenTypes = new ArrayList<>();
 }

@@ -1,4 +1,4 @@
-package com.delitech.revealing.service;
+package com.delitech.revealing.service.imp;
 
 import com.delitech.revealing.dto.ClientDto;
 import com.delitech.revealing.dto.UserDto;
@@ -7,7 +7,9 @@ import com.delitech.revealing.entity.UserEntity;
 import com.delitech.revealing.exception.ModelNotFoundException;
 import com.delitech.revealing.repository.ClientRepository;
 import com.delitech.revealing.repository.UserRepository;
+import com.delitech.revealing.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,7 +32,9 @@ public class ClientServiceImp implements ClientService {
     private final ClientRepository repository;
     private final UserRepository userRepository;
     private final UserService userService;
-    private final Function<UserDto, UserEntity> userDtoToEntity;
+    private final ClientCategoryRestaurantService clientCategoryRestaurantService;
+    private final ClientDietaryRestrictionService clientDietaryRestrictionService;
+    private final ClientKitchenTypeService clientKitchenTypeService;
     private final Function<UserEntity, UserDto> userToDto;
     private final Function<ClientDto, ClientEntity> clientDtoToEntity;
     private final Function<ClientEntity, ClientDto> clientToDto;
@@ -39,20 +43,25 @@ public class ClientServiceImp implements ClientService {
     @Override
     @Transactional
     public ClientDto save(ClientDto dto, Locale locale) {
-        var apply = clientDtoToEntity.apply(dto);
+        var clientEntity = clientDtoToEntity.apply(dto);
         var user = userService.save(dto.getUser(), locale);
 
-        apply.setUserId(user.getId());
-        var client = clientToDto.apply(repository.save(apply));
+        clientEntity.setUserId(user.getId());
+        var client = clientToDto.apply(repository.save(clientEntity));
 
         client.setUser(user);
         return client;
     }
 
     @Override
+    @Transactional
     public ClientDto update(ClientDto dto, UUID id, Locale locale) {
+        ClientEntity client = repository.findById(id).orElseThrow(() ->
+                new ModelNotFoundException(messageSource.getMessage(EXCEPTION_MODEL_USER_INVALID, null, locale)));
 
-        return null;
+        userService.update(dto.getUser(), client.getUserId(), locale);
+        BeanUtils.copyProperties(dto, client, "userId");
+        return convert(repository.save(client));
     }
 
     @Override
@@ -62,10 +71,13 @@ public class ClientServiceImp implements ClientService {
         var client = repository.findById(id).orElseThrow(() ->
                 new ModelNotFoundException(messageSource.getMessage(EXCEPTION_MODEL_USER_INVALID, null, locale)));
 
-        var apply = clientToDto.apply(client);
+        var clientDto = clientToDto.apply(client);
 
-        apply.setUser(user);
-        return apply;
+        clientDto.setUser(user);
+        clientDto.setDietaryRestrictions(clientDietaryRestrictionService.getAllByClient(client.getUserId(), locale));
+        clientDto.setKitchenTypes(clientKitchenTypeService.getAllByClient(client.getUserId(), locale));
+        clientDto.setCategoryRestaurants(clientCategoryRestaurantService.getAllByClient(client.getUserId(), locale));
+        return clientDto;
     }
 
     @Override
@@ -79,6 +91,7 @@ public class ClientServiceImp implements ClientService {
     }
 
     @Override
+    @Transactional
     public void delete(UUID id, Locale locale) {
         var entity = repository.findById(id).orElseThrow(() ->
                 new ModelNotFoundException(messageSource.getMessage(EXCEPTION_MODEL_NOTFOUND, null, locale)));

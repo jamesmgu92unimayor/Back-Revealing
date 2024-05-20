@@ -1,9 +1,10 @@
-package com.delitech.revealing.service;
+package com.delitech.revealing.service.imp;
 
-import com.delitech.revealing.dto.KitchenTypeDto;
-import com.delitech.revealing.entity.KitchenTypeEntity;
+import com.delitech.revealing.dto.CategoryDishesDto;
+import com.delitech.revealing.entity.CategoryDishesEntity;
 import com.delitech.revealing.exception.ModelNotFoundException;
-import com.delitech.revealing.repository.KitchenTypeRepository;
+import com.delitech.revealing.repository.CategoryDishesRepository;
+import com.delitech.revealing.service.CategoryDishesService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -20,44 +21,44 @@ import static com.delitech.revealing.commons.Constants.EXCEPTION_MODEL_NOTFOUND;
 
 @Service
 @RequiredArgsConstructor
-public class KitchenTypeServiceImp implements KitchenTypeService {
+public class CategoryDishesServiceImp implements CategoryDishesService {
 
     private final MessageSource messageSource;
-    private final KitchenTypeRepository repository;
-    private final Function<KitchenTypeEntity, KitchenTypeDto> kitchenTypeToDto;
-    private final Function<KitchenTypeDto, KitchenTypeEntity> kitchenTypeDtoToEntity;
+    private final CategoryDishesRepository repository;
+    private final Function<CategoryDishesEntity, CategoryDishesDto> categoryDishesToDto;
+    private final Function<CategoryDishesDto, CategoryDishesEntity> categoryDishesDtoToEntity;
 
     @Override
     @Transactional
-    public KitchenTypeDto save(KitchenTypeDto dto, Locale locale) {
-        return kitchenTypeToDto.apply(repository.save(this.kitchenTypeDtoToEntity.apply(dto)));
+    public CategoryDishesDto save(CategoryDishesDto dto, Locale locale) {
+        return categoryDishesToDto.apply(repository.save(this.categoryDishesDtoToEntity.apply(dto)));
     }
 
     @Override
     @Transactional
-    public KitchenTypeDto update(KitchenTypeDto dto, UUID id, Locale locale) {
+    public CategoryDishesDto update(CategoryDishesDto dto, UUID id, Locale locale) {
         var entity = repository.findById(id).orElseThrow(() ->
                 new ModelNotFoundException(messageSource.getMessage(EXCEPTION_MODEL_NOTFOUND, null, locale)));
 
         entity.setName(dto.getName());
-        return kitchenTypeToDto.apply(repository.save(entity));
+        return categoryDishesToDto.apply(repository.save(entity));
     }
 
     @Override
-    public KitchenTypeDto getById(UUID id, Locale locale) {
+    public CategoryDishesDto getById(UUID id, Locale locale) {
         var entity = repository.findById(id).orElseThrow(() ->
                 new ModelNotFoundException(messageSource.getMessage(EXCEPTION_MODEL_NOTFOUND, null, locale)));
 
-        return kitchenTypeToDto.apply(entity);
+        return categoryDishesToDto.apply(entity);
     }
 
     @Override
-    public Page<KitchenTypeDto> getAll(Pageable pageable, Locale locale) {
+    public Page<CategoryDishesDto> getAll(Pageable pageable, Locale locale) {
         return repository.findAll(pageable).map(this::convert);
     }
 
     @Override
-    public List<KitchenTypeDto> getAll(Locale locale) {
+    public List<CategoryDishesDto> getAll(Locale locale) {
         return repository.findAll().stream().map(this::convert).toList();
     }
 
@@ -70,8 +71,8 @@ public class KitchenTypeServiceImp implements KitchenTypeService {
         repository.deleteById(entity.getId());
     }
 
-    private KitchenTypeDto convert(KitchenTypeEntity entity) {
-        return kitchenTypeToDto.apply(entity);
+    private CategoryDishesDto convert(CategoryDishesEntity entity) {
+        return categoryDishesToDto.apply(entity);
     }
 
 }
