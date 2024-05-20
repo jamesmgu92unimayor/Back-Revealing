@@ -34,7 +34,8 @@ public class SecurityConfig {
                         authRequest
                                 .requestMatchers(new AntPathRequestMatcher("/auth/**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/users", "POST")).permitAll()
-                                .requestMatchers(new AntPathRequestMatcher("/recover-pass")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/client", "POST")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/restaurant", "POST")).permitAll()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManager ->
