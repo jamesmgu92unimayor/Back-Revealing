@@ -28,18 +28,18 @@ public class RestaurantController {
 
     @PostMapping
     public ResponseEntity<GeneralBodyResponse<RestaurantDto>> save(@Valid @RequestBody RestaurantDto dto, Locale locale) {
-        var client = service.save(dto, locale);
+        var restaurant = service.save(dto, locale);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(new GeneralBodyResponse<>(messageSource.getMessage(GENERAL_CREATE_SUCCESS, null, locale), client));
+                .body(new GeneralBodyResponse<>(messageSource.getMessage(GENERAL_CREATE_SUCCESS, null, locale), restaurant));
     }
 
     @PutMapping("{id}")
     public ResponseEntity<GeneralBodyResponse<RestaurantDto>> update(@Valid @RequestBody RestaurantDto dto, @PathVariable("id") UUID id, Locale locale) {
-        var client = service.update(dto, id, locale);
+        var restaurant = service.update(dto, id, locale);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(new GeneralBodyResponse<>(messageSource.getMessage(GENERAL_CREATE_SUCCESS, null, locale), client));
+                .body(new GeneralBodyResponse<>(messageSource.getMessage(GENERAL_CREATE_SUCCESS, null, locale), restaurant));
     }
 
     @GetMapping("{id}")

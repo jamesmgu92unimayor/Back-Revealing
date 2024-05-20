@@ -1,5 +1,6 @@
 package com.delitech.revealing.service.imp;
 
+import com.delitech.revealing.commons.UserTypeEnum;
 import com.delitech.revealing.dto.CategoryRestaurantDto;
 import com.delitech.revealing.dto.RestaurantDto;
 import com.delitech.revealing.dto.UserDto;
@@ -48,13 +49,15 @@ public class RestaurantServiceImp implements RestaurantService {
     @Override
     @Transactional
     public RestaurantDto save(RestaurantDto dto, Locale locale) {
+        dto.getUser().setType(UserTypeEnum.RESTAURANT.toString());
+
         var restaurantEntity = restaurantDtoToEntity.apply(dto);
         var user = userService.save(dto.getUser(), locale);
-        CategoryRestaurantEntity categoryRestaurant = restaurantRepository.findById(dto.getCategoryRestaurantId()).orElseThrow(() ->
+        CategoryRestaurantEntity categoryRestaurant = restaurantRepository.findById(dto.getCategoryRestaurant().getId()).orElseThrow(() ->
                 new ModelNotFoundException(messageSource.getMessage(EXCEPTION_MODEL_NOTFOUND, null, locale)));
 
         restaurantEntity.setUserId(user.getId());
-        restaurantEntity.setCategoryRestaurant(categoryRestaurant);
+        restaurantEntity.setCategoryRestaurantId(categoryRestaurant.getId());
         var restaurant = restaurantToDto.apply(repository.save(restaurantEntity));
 
         restaurant.setUser(user);

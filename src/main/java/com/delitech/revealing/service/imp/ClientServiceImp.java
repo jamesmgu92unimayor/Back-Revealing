@@ -1,5 +1,6 @@
 package com.delitech.revealing.service.imp;
 
+import com.delitech.revealing.commons.UserTypeEnum;
 import com.delitech.revealing.dto.ClientDto;
 import com.delitech.revealing.dto.UserDto;
 import com.delitech.revealing.entity.ClientEntity;
@@ -43,6 +44,8 @@ public class ClientServiceImp implements ClientService {
     @Override
     @Transactional
     public ClientDto save(ClientDto dto, Locale locale) {
+        dto.getUser().setType(UserTypeEnum.CLIENT.toString());
+
         var clientEntity = clientDtoToEntity.apply(dto);
         var user = userService.save(dto.getUser(), locale);
 

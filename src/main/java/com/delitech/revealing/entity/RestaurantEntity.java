@@ -1,6 +1,9 @@
 package com.delitech.revealing.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,7 +28,4 @@ public class RestaurantEntity implements Serializable {
     private String address;
     @Column(name = "celular")
     private String cellular;
-    @ManyToOne
-    @JoinColumn(name = "id_categoria_restaurante", insertable = false, updatable = false)
-    private CategoryRestaurantEntity categoryRestaurant;
 }

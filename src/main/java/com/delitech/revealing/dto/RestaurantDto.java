@@ -8,14 +8,12 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class RestaurantDto implements Serializable {
-    private UUID categoryRestaurantId;
     private String address;
     private String cellular;
     private UserDto user;
