@@ -19,6 +19,5 @@ public class DishesDto implements Serializable {
     private String name;
     private String description;
     private BigDecimal price;
-    private UUID categoryDishesId;
     private CategoryDishesDto categoryDishes;
 }

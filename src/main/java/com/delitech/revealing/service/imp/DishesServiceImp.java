@@ -51,7 +51,7 @@ public class DishesServiceImp implements DishesService {
     public DishesDto save(DishesDto dto, UUID userId, Locale locale) {
         RestaurantEntity restaurant = restaurantRepository.findById(userId)
                 .orElseThrow(() -> new ModelNotFoundException(messageSource.getMessage(EXCEPTION_MODEL_NOTFOUND, null, locale)));
-        CategoryDishesEntity categoryDishes = categoryDishesRepository.findById(dto.getCategoryDishesId())
+        CategoryDishesEntity categoryDishes = categoryDishesRepository.findById(dto.getCategoryDishes().getId())
                 .orElseThrow(() -> new ModelNotFoundException(messageSource.getMessage(EXCEPTION_MODEL_NOTFOUND, null, locale)));
         DishesEntity entity = dishesDtoToEntity.apply(dto);
 

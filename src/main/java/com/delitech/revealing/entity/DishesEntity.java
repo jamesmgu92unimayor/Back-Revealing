@@ -35,9 +35,7 @@ public class DishesEntity implements Serializable {
     private String description;
     @Column(name = "precio", precision = 10, scale = 2)
     private BigDecimal price;
-    @Column(name = "id_categoria_plato")
-    private UUID categoryDishesId;
     @ManyToOne
-    @JoinColumn(name = "id_categoria_plato", insertable = false, updatable = false)
+    @JoinColumn(name = "id_categoria_plato")
     private CategoryDishesEntity categoryDishes;
 }
