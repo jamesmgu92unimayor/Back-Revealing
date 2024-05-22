@@ -1,5 +1,6 @@
 package com.delitech.revealing.auth.jwt;
 
+import com.delitech.revealing.entity.UserEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -27,6 +28,11 @@ public class JwtService {
     }
 
     private String getToken(Map<String,Object> extraClaims, UserDetails user) {
+        if (user instanceof UserEntity) {
+            UserEntity userEntity = (UserEntity) user;
+            extraClaims.put("type", userEntity.getType());
+        }
+
         return Jwts
             .builder()
             .setClaims(extraClaims)

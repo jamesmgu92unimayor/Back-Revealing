@@ -2,6 +2,7 @@ package com.delitech.revealing.controller;
 
 import com.delitech.revealing.commons.GeneralBodyResponse;
 import com.delitech.revealing.dto.DishesDto;
+import com.delitech.revealing.entity.UserEntity;
 import com.delitech.revealing.service.DishesService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,12 +28,12 @@ public class DishesController {
     private final DishesService service;
     private final MessageSource messageSource;
 
-    @PostMapping("{restaurantId}")
-    public ResponseEntity<GeneralBodyResponse<DishesDto>> save(@Valid @RequestBody DishesDto dto, @PathVariable("restaurantId") UUID restaurantId, Locale locale) {
+    @PostMapping()
+    public ResponseEntity<GeneralBodyResponse<DishesDto>> save(@Valid @RequestBody DishesDto dto, @AuthenticationPrincipal UserEntity loggedUser, Locale locale) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new GeneralBodyResponse<>(messageSource.getMessage(GENERAL_CREATE_SUCCESS, null, locale),
-                        service.save(dto, restaurantId, locale)));
+                        service.save(dto, loggedUser.getId(), locale)));
     }
 
     @PutMapping("{id}")

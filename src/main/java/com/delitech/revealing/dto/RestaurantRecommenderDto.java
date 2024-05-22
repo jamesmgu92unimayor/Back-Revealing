@@ -20,6 +20,7 @@ public class RestaurantRecommenderDto implements Serializable {
     private String email;
     private String address;
     private String cellular;
+    private Double score;
     private CategoryRestaurantDto categoryRestaurant;
 
     private List<KitchenTypeDto> kitchenTypes = new ArrayList<>();
