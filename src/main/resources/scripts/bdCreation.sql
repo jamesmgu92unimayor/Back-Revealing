@@ -141,7 +141,7 @@ VALUES('f2320a65-5750-47e7-ae71-d4abd4d33b6c'::uuid);
 CREATE TABLE imagenes (
                           id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
                           nombre VARCHAR(255) NOT NULL,
-                          datos LONGBLOB NOT NULL
+                          datos TEXT NOT NULL
 );
 
 ALTER TABLE restaurantes
