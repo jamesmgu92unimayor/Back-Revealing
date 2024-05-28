@@ -28,4 +28,6 @@ public class RestaurantEntity implements Serializable {
     private String address;
     @Column(name = "celular")
     private String cellular;
+    @Column(name = "id_imagen")
+    private UUID imageId;
 }

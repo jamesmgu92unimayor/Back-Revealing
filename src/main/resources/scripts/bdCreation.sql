@@ -138,5 +138,22 @@ INSERT INTO public.administradores
 (id_usuario)
 VALUES('f2320a65-5750-47e7-ae71-d4abd4d33b6c'::uuid);
 
+CREATE TABLE imagenes (
+                          id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+                          nombre VARCHAR(255) NOT NULL,
+                          datos LONGBLOB NOT NULL
+);
+
+ALTER TABLE restaurantes
+    ADD COLUMN id_imagen UUID,
+ADD FOREIGN KEY (id_imagen) REFERENCES imagenes(id);
+
+ALTER TABLE clientes
+    ADD COLUMN id_imagen UUID,
+ADD FOREIGN KEY (id_imagen) REFERENCES imagenes(id);
+
+ALTER TABLE platos
+    ADD COLUMN id_imagen UUID,
+ADD FOREIGN KEY (id_imagen) REFERENCES imagenes(id);
 
 

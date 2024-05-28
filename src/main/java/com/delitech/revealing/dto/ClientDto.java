@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -18,6 +19,7 @@ public class ClientDto implements Serializable {
     private String lastname;
     private String cellular;
     private UserDto user;
+    private UUID imageId;
 
     private List<ClientCategoryRestaurantDto> categoryRestaurants = new ArrayList<>();
     private List<ClientDietaryRestrictionDto> dietaryRestrictions = new ArrayList<>();

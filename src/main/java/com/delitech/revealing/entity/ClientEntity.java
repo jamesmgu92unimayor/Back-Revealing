@@ -28,4 +28,6 @@ public class ClientEntity implements Serializable {
     private String lastname;
     @Column(name = "celular")
     private String cellular;
+    @Column(name = "id_imagen")
+    private UUID imageId;
 }
