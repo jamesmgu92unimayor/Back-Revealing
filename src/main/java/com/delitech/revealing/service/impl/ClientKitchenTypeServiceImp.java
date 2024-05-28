@@ -1,14 +1,14 @@
-package com.delitech.revealing.service.imp;
+package com.delitech.revealing.service.impl;
 
-import com.delitech.revealing.dto.ClientCategoryRestaurantDto;
-import com.delitech.revealing.entity.CategoryRestaurantEntity;
-import com.delitech.revealing.entity.ClientCategoryRestaurantEntity;
+import com.delitech.revealing.dto.ClientKitchenTypeDto;
 import com.delitech.revealing.entity.ClientEntity;
+import com.delitech.revealing.entity.ClientKitchenTypeEntity;
+import com.delitech.revealing.entity.KitchenTypeEntity;
 import com.delitech.revealing.exception.ModelNotFoundException;
-import com.delitech.revealing.repository.CategoryRestaurantRepository;
-import com.delitech.revealing.repository.ClientCategoryRestaurantRepository;
+import com.delitech.revealing.repository.ClientKitchenTypeRepository;
 import com.delitech.revealing.repository.ClientRepository;
-import com.delitech.revealing.service.ClientCategoryRestaurantService;
+import com.delitech.revealing.repository.KitchenTypeRepository;
+import com.delitech.revealing.service.ClientKitchenTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -23,40 +23,40 @@ import static com.delitech.revealing.commons.Constants.EXCEPTION_MODEL_NOTFOUND;
 
 @Service
 @RequiredArgsConstructor
-public class ClientCategoryRestaurantServiceImp implements ClientCategoryRestaurantService {
+public class ClientKitchenTypeServiceImp implements ClientKitchenTypeService {
 
     private final MessageSource messageSource;
-    private final ClientCategoryRestaurantRepository repository;
+    private final ClientKitchenTypeRepository repository;
     private final ClientRepository clientRepository;
-    private final CategoryRestaurantRepository categoryRestaurantRepository;
-    private final Function<ClientCategoryRestaurantEntity, ClientCategoryRestaurantDto> clientCategoryRestaurantToDto;
+    private final KitchenTypeRepository kitchenTypeRepository;
+    private final Function<ClientKitchenTypeEntity, ClientKitchenTypeDto> clientKitchenTypeToDto;
 
-    private ClientCategoryRestaurantDto convert(ClientCategoryRestaurantEntity entity) {
-        return clientCategoryRestaurantToDto.apply(entity);
+    private ClientKitchenTypeDto convert(ClientKitchenTypeEntity entity) {
+        return clientKitchenTypeToDto.apply(entity);
     }
 
     @Override
     @Transactional
-    public ClientCategoryRestaurantDto add(UUID userId, UUID categoryId, Locale locale) {
-        CategoryRestaurantEntity categoryRestaurant = categoryRestaurantRepository.findById(categoryId).
+    public ClientKitchenTypeDto add(UUID userId, UUID typeId, Locale locale) {
+        KitchenTypeEntity kitchenType = kitchenTypeRepository.findById(typeId).
                 orElseThrow(() -> new ModelNotFoundException(messageSource.getMessage(EXCEPTION_MODEL_NOTFOUND, null, locale)));
         ClientEntity client = clientRepository.findById(userId).
                 orElseThrow(() -> new ModelNotFoundException(messageSource.getMessage(EXCEPTION_MODEL_NOTFOUND, null, locale)));
 
-        return convert(repository.save(ClientCategoryRestaurantEntity.builder().client(client).categoryRestaurant(categoryRestaurant).build()));
+        return convert(repository.save(ClientKitchenTypeEntity.builder().client(client).kitchenType(kitchenType).build()));
     }
 
     @Override
     @Transactional
     public void remove(UUID id, Locale locale) {
-        ClientCategoryRestaurantEntity clientCategoryRestaurantEntity = repository.findById(id).
+        ClientKitchenTypeEntity clientKitchenTypeEntity = repository.findById(id).
                 orElseThrow(() -> new ModelNotFoundException(messageSource.getMessage(EXCEPTION_MODEL_NOTFOUND, null, locale)));
 
-        repository.deleteById(clientCategoryRestaurantEntity.getId());
+        repository.deleteById(clientKitchenTypeEntity.getId());
     }
 
     @Override
-    public List<ClientCategoryRestaurantDto> getAllByClient(UUID userId, Locale locale) {
+    public List<ClientKitchenTypeDto> getAllByClient(UUID userId, Locale locale) {
         ClientEntity client = clientRepository.findById(userId).
                 orElseThrow(() -> new ModelNotFoundException(messageSource.getMessage(EXCEPTION_MODEL_NOTFOUND, null, locale)));
 

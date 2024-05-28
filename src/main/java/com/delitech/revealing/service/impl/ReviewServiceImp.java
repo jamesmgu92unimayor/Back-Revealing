@@ -1,4 +1,4 @@
-package com.delitech.revealing.service.imp;
+package com.delitech.revealing.service.impl;
 
 import com.delitech.revealing.dto.ClientDto;
 import com.delitech.revealing.dto.DishesDto;
@@ -28,7 +28,9 @@ import java.util.Locale;
 import java.util.UUID;
 import java.util.function.Function;
 
-import static com.delitech.revealing.commons.Constants.*;
+import static com.delitech.revealing.commons.Constants.EXCEPTION_MODEL_NOTFOUND;
+import static com.delitech.revealing.commons.Constants.EXCEPTION_NOT_MATCH;
+import static com.delitech.revealing.commons.Constants.TIME_ZONE;
 
 @Service
 @RequiredArgsConstructor

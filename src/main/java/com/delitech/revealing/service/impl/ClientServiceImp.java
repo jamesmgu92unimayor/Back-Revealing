@@ -1,4 +1,4 @@
-package com.delitech.revealing.service.imp;
+package com.delitech.revealing.service.impl;
 
 import com.delitech.revealing.commons.UserTypeEnum;
 import com.delitech.revealing.dto.ClientDto;
@@ -8,7 +8,11 @@ import com.delitech.revealing.entity.UserEntity;
 import com.delitech.revealing.exception.ModelNotFoundException;
 import com.delitech.revealing.repository.ClientRepository;
 import com.delitech.revealing.repository.UserRepository;
-import com.delitech.revealing.service.*;
+import com.delitech.revealing.service.ClientCategoryRestaurantService;
+import com.delitech.revealing.service.ClientDietaryRestrictionService;
+import com.delitech.revealing.service.ClientKitchenTypeService;
+import com.delitech.revealing.service.ClientService;
+import com.delitech.revealing.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.MessageSource;

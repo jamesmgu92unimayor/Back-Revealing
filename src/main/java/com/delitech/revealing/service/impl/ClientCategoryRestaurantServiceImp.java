@@ -1,14 +1,14 @@
-package com.delitech.revealing.service.imp;
+package com.delitech.revealing.service.impl;
 
-import com.delitech.revealing.dto.ClientDietaryRestrictionDto;
-import com.delitech.revealing.entity.ClientDietaryRestrictionEntity;
+import com.delitech.revealing.dto.ClientCategoryRestaurantDto;
+import com.delitech.revealing.entity.CategoryRestaurantEntity;
+import com.delitech.revealing.entity.ClientCategoryRestaurantEntity;
 import com.delitech.revealing.entity.ClientEntity;
-import com.delitech.revealing.entity.DietaryRestrictionEntity;
 import com.delitech.revealing.exception.ModelNotFoundException;
-import com.delitech.revealing.repository.ClientDietaryRestrictionRepository;
+import com.delitech.revealing.repository.CategoryRestaurantRepository;
+import com.delitech.revealing.repository.ClientCategoryRestaurantRepository;
 import com.delitech.revealing.repository.ClientRepository;
-import com.delitech.revealing.repository.DietaryRestrictionRepository;
-import com.delitech.revealing.service.ClientDietaryRestrictionService;
+import com.delitech.revealing.service.ClientCategoryRestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -23,40 +23,40 @@ import static com.delitech.revealing.commons.Constants.EXCEPTION_MODEL_NOTFOUND;
 
 @Service
 @RequiredArgsConstructor
-public class ClientDietaryRestrictionServiceImp implements ClientDietaryRestrictionService {
+public class ClientCategoryRestaurantServiceImp implements ClientCategoryRestaurantService {
 
     private final MessageSource messageSource;
-    private final ClientDietaryRestrictionRepository repository;
+    private final ClientCategoryRestaurantRepository repository;
     private final ClientRepository clientRepository;
-    private final DietaryRestrictionRepository dietaryRestrictionRepository;
-    private final Function<ClientDietaryRestrictionEntity, ClientDietaryRestrictionDto> clientKitchenTypeToDto;
+    private final CategoryRestaurantRepository categoryRestaurantRepository;
+    private final Function<ClientCategoryRestaurantEntity, ClientCategoryRestaurantDto> clientCategoryRestaurantToDto;
 
-    private ClientDietaryRestrictionDto convert(ClientDietaryRestrictionEntity entity) {
-        return clientKitchenTypeToDto.apply(entity);
+    private ClientCategoryRestaurantDto convert(ClientCategoryRestaurantEntity entity) {
+        return clientCategoryRestaurantToDto.apply(entity);
     }
 
     @Override
     @Transactional
-    public ClientDietaryRestrictionDto add(UUID userId, UUID typeId, Locale locale) {
-        DietaryRestrictionEntity dietaryRestriction = dietaryRestrictionRepository.findById(typeId).
+    public ClientCategoryRestaurantDto add(UUID userId, UUID categoryId, Locale locale) {
+        CategoryRestaurantEntity categoryRestaurant = categoryRestaurantRepository.findById(categoryId).
                 orElseThrow(() -> new ModelNotFoundException(messageSource.getMessage(EXCEPTION_MODEL_NOTFOUND, null, locale)));
         ClientEntity client = clientRepository.findById(userId).
                 orElseThrow(() -> new ModelNotFoundException(messageSource.getMessage(EXCEPTION_MODEL_NOTFOUND, null, locale)));
 
-        return convert(repository.save(ClientDietaryRestrictionEntity.builder().client(client).dietaryRestriction(dietaryRestriction).build()));
+        return convert(repository.save(ClientCategoryRestaurantEntity.builder().client(client).categoryRestaurant(categoryRestaurant).build()));
     }
 
     @Override
     @Transactional
     public void remove(UUID id, Locale locale) {
-        ClientDietaryRestrictionEntity clientDietaryRestrictionEntity = repository.findById(id).
+        ClientCategoryRestaurantEntity clientCategoryRestaurantEntity = repository.findById(id).
                 orElseThrow(() -> new ModelNotFoundException(messageSource.getMessage(EXCEPTION_MODEL_NOTFOUND, null, locale)));
 
-        repository.deleteById(clientDietaryRestrictionEntity.getId());
+        repository.deleteById(clientCategoryRestaurantEntity.getId());
     }
 
     @Override
-    public List<ClientDietaryRestrictionDto> getAllByClient(UUID userId, Locale locale) {
+    public List<ClientCategoryRestaurantDto> getAllByClient(UUID userId, Locale locale) {
         ClientEntity client = clientRepository.findById(userId).
                 orElseThrow(() -> new ModelNotFoundException(messageSource.getMessage(EXCEPTION_MODEL_NOTFOUND, null, locale)));
 

@@ -1,10 +1,10 @@
-package com.delitech.revealing.service.imp;
+package com.delitech.revealing.service.impl;
 
-import com.delitech.revealing.dto.CategoryRestaurantDto;
-import com.delitech.revealing.entity.CategoryRestaurantEntity;
+import com.delitech.revealing.dto.DietaryRestrictionDto;
+import com.delitech.revealing.entity.DietaryRestrictionEntity;
 import com.delitech.revealing.exception.ModelNotFoundException;
-import com.delitech.revealing.repository.CategoryRestaurantRepository;
-import com.delitech.revealing.service.CategoryRestaurantService;
+import com.delitech.revealing.repository.DietaryRestrictionRepository;
+import com.delitech.revealing.service.DietaryRestrictionService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -21,44 +21,44 @@ import static com.delitech.revealing.commons.Constants.EXCEPTION_MODEL_NOTFOUND;
 
 @Service
 @RequiredArgsConstructor
-public class CategoryRestaurantServiceImp implements CategoryRestaurantService {
+public class DietaryRestrictionServiceImp implements DietaryRestrictionService {
 
     private final MessageSource messageSource;
-    private final CategoryRestaurantRepository repository;
-    private final Function<CategoryRestaurantEntity, CategoryRestaurantDto> categoryRestaurantToDto;
-    private final Function<CategoryRestaurantDto, CategoryRestaurantEntity> categoryRestaurantDtoToEntity;
+    private final DietaryRestrictionRepository repository;
+    private final Function<DietaryRestrictionEntity, DietaryRestrictionDto> dietaryRestrictionToDto;
+    private final Function<DietaryRestrictionDto, DietaryRestrictionEntity> dietaryRestrictionDtoToEntity;
 
     @Override
     @Transactional
-    public CategoryRestaurantDto save(CategoryRestaurantDto dto, Locale locale) {
-        return categoryRestaurantToDto.apply(repository.save(this.categoryRestaurantDtoToEntity.apply(dto)));
+    public DietaryRestrictionDto save(DietaryRestrictionDto dto, Locale locale) {
+        return dietaryRestrictionToDto.apply(repository.save(this.dietaryRestrictionDtoToEntity.apply(dto)));
     }
 
     @Override
     @Transactional
-    public CategoryRestaurantDto update(CategoryRestaurantDto dto, UUID id, Locale locale) {
+    public DietaryRestrictionDto update(DietaryRestrictionDto dto, UUID id, Locale locale) {
         var entity = repository.findById(id).orElseThrow(() ->
                 new ModelNotFoundException(messageSource.getMessage(EXCEPTION_MODEL_NOTFOUND, null, locale)));
 
         entity.setName(dto.getName());
-        return categoryRestaurantToDto.apply(repository.save(entity));
+        return dietaryRestrictionToDto.apply(repository.save(entity));
     }
 
     @Override
-    public CategoryRestaurantDto getById(UUID id, Locale locale) {
+    public DietaryRestrictionDto getById(UUID id, Locale locale) {
         var entity = repository.findById(id).orElseThrow(() ->
                 new ModelNotFoundException(messageSource.getMessage(EXCEPTION_MODEL_NOTFOUND, null, locale)));
 
-        return categoryRestaurantToDto.apply(entity);
+        return dietaryRestrictionToDto.apply(entity);
     }
 
     @Override
-    public Page<CategoryRestaurantDto> getAll(Pageable pageable, Locale locale) {
+    public Page<DietaryRestrictionDto> getAll(Pageable pageable, Locale locale) {
         return repository.findAll(pageable).map(this::convert);
     }
 
     @Override
-    public List<CategoryRestaurantDto> getAll(Locale locale) {
+    public List<DietaryRestrictionDto> getAll(Locale locale) {
         return repository.findAll().stream().map(this::convert).toList();
     }
 
@@ -71,8 +71,8 @@ public class CategoryRestaurantServiceImp implements CategoryRestaurantService {
         repository.deleteById(entity.getId());
     }
 
-    private CategoryRestaurantDto convert(CategoryRestaurantEntity entity) {
-        return categoryRestaurantToDto.apply(entity);
+    private DietaryRestrictionDto convert(DietaryRestrictionEntity entity) {
+        return dietaryRestrictionToDto.apply(entity);
     }
 
 }

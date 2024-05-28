@@ -1,14 +1,14 @@
-package com.delitech.revealing.service.imp;
+package com.delitech.revealing.service.impl;
 
-import com.delitech.revealing.dto.ClientKitchenTypeDto;
+import com.delitech.revealing.dto.ClientDietaryRestrictionDto;
+import com.delitech.revealing.entity.ClientDietaryRestrictionEntity;
 import com.delitech.revealing.entity.ClientEntity;
-import com.delitech.revealing.entity.ClientKitchenTypeEntity;
-import com.delitech.revealing.entity.KitchenTypeEntity;
+import com.delitech.revealing.entity.DietaryRestrictionEntity;
 import com.delitech.revealing.exception.ModelNotFoundException;
-import com.delitech.revealing.repository.ClientKitchenTypeRepository;
+import com.delitech.revealing.repository.ClientDietaryRestrictionRepository;
 import com.delitech.revealing.repository.ClientRepository;
-import com.delitech.revealing.repository.KitchenTypeRepository;
-import com.delitech.revealing.service.ClientKitchenTypeService;
+import com.delitech.revealing.repository.DietaryRestrictionRepository;
+import com.delitech.revealing.service.ClientDietaryRestrictionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -23,40 +23,40 @@ import static com.delitech.revealing.commons.Constants.EXCEPTION_MODEL_NOTFOUND;
 
 @Service
 @RequiredArgsConstructor
-public class ClientKitchenTypeServiceImp implements ClientKitchenTypeService {
+public class ClientDietaryRestrictionServiceImp implements ClientDietaryRestrictionService {
 
     private final MessageSource messageSource;
-    private final ClientKitchenTypeRepository repository;
+    private final ClientDietaryRestrictionRepository repository;
     private final ClientRepository clientRepository;
-    private final KitchenTypeRepository kitchenTypeRepository;
-    private final Function<ClientKitchenTypeEntity, ClientKitchenTypeDto> clientKitchenTypeToDto;
+    private final DietaryRestrictionRepository dietaryRestrictionRepository;
+    private final Function<ClientDietaryRestrictionEntity, ClientDietaryRestrictionDto> clientKitchenTypeToDto;
 
-    private ClientKitchenTypeDto convert(ClientKitchenTypeEntity entity) {
+    private ClientDietaryRestrictionDto convert(ClientDietaryRestrictionEntity entity) {
         return clientKitchenTypeToDto.apply(entity);
     }
 
     @Override
     @Transactional
-    public ClientKitchenTypeDto add(UUID userId, UUID typeId, Locale locale) {
-        KitchenTypeEntity kitchenType = kitchenTypeRepository.findById(typeId).
+    public ClientDietaryRestrictionDto add(UUID userId, UUID typeId, Locale locale) {
+        DietaryRestrictionEntity dietaryRestriction = dietaryRestrictionRepository.findById(typeId).
                 orElseThrow(() -> new ModelNotFoundException(messageSource.getMessage(EXCEPTION_MODEL_NOTFOUND, null, locale)));
         ClientEntity client = clientRepository.findById(userId).
                 orElseThrow(() -> new ModelNotFoundException(messageSource.getMessage(EXCEPTION_MODEL_NOTFOUND, null, locale)));
 
-        return convert(repository.save(ClientKitchenTypeEntity.builder().client(client).kitchenType(kitchenType).build()));
+        return convert(repository.save(ClientDietaryRestrictionEntity.builder().client(client).dietaryRestriction(dietaryRestriction).build()));
     }
 
     @Override
     @Transactional
     public void remove(UUID id, Locale locale) {
-        ClientKitchenTypeEntity clientKitchenTypeEntity = repository.findById(id).
+        ClientDietaryRestrictionEntity clientDietaryRestrictionEntity = repository.findById(id).
                 orElseThrow(() -> new ModelNotFoundException(messageSource.getMessage(EXCEPTION_MODEL_NOTFOUND, null, locale)));
 
-        repository.deleteById(clientKitchenTypeEntity.getId());
+        repository.deleteById(clientDietaryRestrictionEntity.getId());
     }
 
     @Override
-    public List<ClientKitchenTypeDto> getAllByClient(UUID userId, Locale locale) {
+    public List<ClientDietaryRestrictionDto> getAllByClient(UUID userId, Locale locale) {
         ClientEntity client = clientRepository.findById(userId).
                 orElseThrow(() -> new ModelNotFoundException(messageSource.getMessage(EXCEPTION_MODEL_NOTFOUND, null, locale)));
 

@@ -1,15 +1,40 @@
-package com.delitech.revealing.service.imp;
+package com.delitech.revealing.service.impl;
 
-import com.delitech.revealing.dto.*;
-import com.delitech.revealing.entity.*;
+import com.delitech.revealing.dto.CategoryDishesDto;
+import com.delitech.revealing.dto.CategoryRestaurantDto;
+import com.delitech.revealing.dto.DishesRecommenderDto;
+import com.delitech.revealing.dto.KitchenTypeDto;
+import com.delitech.revealing.dto.RestaurantRecommenderDto;
+import com.delitech.revealing.entity.CategoryRestaurantEntity;
+import com.delitech.revealing.entity.ClientCategoryRestaurantEntity;
+import com.delitech.revealing.entity.ClientEntity;
+import com.delitech.revealing.entity.ClientKitchenTypeEntity;
+import com.delitech.revealing.entity.DishesEntity;
+import com.delitech.revealing.entity.KitchenTypeEntity;
+import com.delitech.revealing.entity.RestaurantEntity;
+import com.delitech.revealing.entity.RestaurantKitchenTypeEntity;
+import com.delitech.revealing.entity.ReviewEntity;
+import com.delitech.revealing.entity.UserEntity;
 import com.delitech.revealing.exception.ModelNotFoundException;
-import com.delitech.revealing.repository.*;
+import com.delitech.revealing.repository.CategoryRestaurantRepository;
+import com.delitech.revealing.repository.ClientCategoryRestaurantRepository;
+import com.delitech.revealing.repository.ClientKitchenTypeRepository;
+import com.delitech.revealing.repository.ClientRepository;
+import com.delitech.revealing.repository.DishesRepository;
+import com.delitech.revealing.repository.RestaurantKitchenTypeRepository;
+import com.delitech.revealing.repository.RestaurantRepository;
+import com.delitech.revealing.repository.ReviewRepository;
+import com.delitech.revealing.repository.UserRepository;
 import com.delitech.revealing.service.RecommendationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Locale;
+import java.util.UUID;
 import java.util.function.Function;
 
 import static com.delitech.revealing.commons.Constants.EXCEPTION_MODEL_USER_INVALID;

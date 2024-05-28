@@ -1,4 +1,4 @@
-package com.delitech.revealing.service.imp;
+package com.delitech.revealing.service.impl;
 
 import com.amazonaws.services.kms.model.NotFoundException;
 import com.delitech.revealing.entity.ImageEntity;

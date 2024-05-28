@@ -1,4 +1,4 @@
-package com.delitech.revealing.service.imp;
+package com.delitech.revealing.service.impl;
 
 import com.delitech.revealing.dto.RestaurantKitchenTypeDto;
 import com.delitech.revealing.entity.KitchenTypeEntity;

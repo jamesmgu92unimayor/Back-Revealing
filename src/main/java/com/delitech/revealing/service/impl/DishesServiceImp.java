@@ -1,4 +1,4 @@
-package com.delitech.revealing.service.imp;
+package com.delitech.revealing.service.impl;
 
 import com.delitech.revealing.dto.CategoryDishesDto;
 import com.delitech.revealing.dto.DishesDto;
